@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../_models/User';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AccountService {
   baseUrl = "https://localhost:7015/api/";
   private currentUserSource=new BehaviorSubject<User | null>(null);
   currentUser$=this.currentUserSource.asObservable();
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private route:Router) { }
 
   login(profileModel:any){
     console.log(profileModel);
@@ -28,6 +29,7 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    this.route.navigate(['']);
   }
 
   setCurrentUser(user:User){
@@ -45,5 +47,10 @@ export class AccountService {
       })
     )
   }
+
+  isLoggedIn(){
+    return this.currentUserSource.value;
+  }
+  
 
 }

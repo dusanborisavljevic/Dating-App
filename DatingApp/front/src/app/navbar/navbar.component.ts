@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule, NgIf } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,RouterModule,RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -19,7 +21,7 @@ export class NavbarComponent implements OnInit {
 
 
 
-  constructor(public accountService:AccountService){}
+  constructor(public accountService:AccountService,private toastrService:ToastrService){}
 
   ngOnInit(): void {
   }
@@ -28,10 +30,10 @@ export class NavbarComponent implements OnInit {
   login(){
     console.log(this.profileForm.value);
     this.accountService.login(this.profileForm.value).subscribe({
-      next : response => {
-        console.log(response)
+      next : () => {
+        this.toastrService.success("Successfull login")
       },
-      error : error => console.log(error)
+      error : error => this.toastrService.error(error.error)
     });
   }
 

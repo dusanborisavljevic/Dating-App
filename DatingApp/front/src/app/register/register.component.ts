@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterComponent {
 
   @Output() emitRegisterCancel = new EventEmitter();
 
-  constructor(private accountService:AccountService){}
+  constructor(private accountService:AccountService,private toastrService:ToastrService){}
 
  registerForm : FormGroup = new FormGroup({
     username : new FormControl(''),
@@ -26,13 +27,12 @@ export class RegisterComponent {
     next: response =>{
       this.cancel()
     },
-    error: error => console.log(error)
+    error: error => this.toastrService.error(error.errror)
   })
  }
 
  cancel(){
-  console.log("cancel")
-  this.emitRegisterCancel.emit(false);
+  this.emitRegisterCancel.emit(true);
  }
 
   

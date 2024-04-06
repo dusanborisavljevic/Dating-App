@@ -4,3 +4,8 @@
 .nav-item{
     color: white !important;
 }
+
+nav > div > li{
+    list-style-type: none !important;
+}
+

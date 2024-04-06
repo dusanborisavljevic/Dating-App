@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AccountService } from './_services/account.service';
 import { HomePageComponent } from './home-page/home-page.component';
+import { RegisterComponent } from './register/register.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent,HomePageComponent],
+  imports: [RouterOutlet,NavbarComponent,HomePageComponent,RegisterComponent,RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

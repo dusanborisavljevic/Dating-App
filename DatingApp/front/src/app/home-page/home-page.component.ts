@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { RegisterComponent } from '../register/register.component';
+import { AccountService } from '../_services/account.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [RegisterComponent],
+  imports: [RegisterComponent,CommonModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
-  registerMode = false;
+  registerMode = true;
 
-  constructor(){}
+  constructor(public accountService:AccountService){}
 
   setRegisterMode(){
     this.registerMode= !this.registerMode;
