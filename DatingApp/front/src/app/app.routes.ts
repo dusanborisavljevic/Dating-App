@@ -5,6 +5,7 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { authGuard } from './_guards/auth.guard';
+import { ErrorPageComponent } from './errors/error-page/error-page.component';
 
 export const routes: Routes = [
     {path:'', component : HomePageComponent},
@@ -18,5 +19,6 @@ export const routes: Routes = [
             {path:'messages', component : MessagesComponent},
         ]
     },
+    {path:'errorPage', component : ErrorPageComponent},
     {path:'**', component : HomePageComponent,pathMatch:'full'}
 ];

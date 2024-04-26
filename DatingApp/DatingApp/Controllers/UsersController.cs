@@ -20,11 +20,11 @@ namespace DatingApp.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> getUserById(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
