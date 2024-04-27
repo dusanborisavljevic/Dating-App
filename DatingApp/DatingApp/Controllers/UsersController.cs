@@ -1,5 +1,8 @@
-﻿using DatingApp.Data;
-using DatingApp.Entities;
+﻿
+using DatingApp.BL.Interfaces;
+using DatingApp.DAL.Context;
+using DatingApp.DAL.Entity;
+using DatingApp.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,23 +11,23 @@ namespace DatingApp.Controllers
 {
     public class UsersController : BaseApiController
     {
-        private readonly DataContext _context;
-        public UsersController(DataContext context) 
+        private readonly IUserBL _userBL;
+        public UsersController(IUserBL userBL) 
         {
-            _context = context;
+            _userBL = userBL;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> getAllUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> getAllMembers()
         {
-            return await _context.Users.ToListAsync();
+            return Ok(await _userBL.getAllMembers());
         }
 
         //[Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> getUserById(int id)
+        [HttpGet("{UserName}")]
+        public async Task<ActionResult<MemberDto>> getMemberById(string UserName)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(await _userBL.getMemberByUserName(UserName));
         }
     }
 }

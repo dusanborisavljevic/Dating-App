@@ -7,7 +7,7 @@ import { catchError, throwError } from 'rxjs';
 export const errorInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error:HttpErrorResponse)=>{
-     // console.log(error)
+     console.log(error)
       if(error){
         switch(error.status){
           case 400:

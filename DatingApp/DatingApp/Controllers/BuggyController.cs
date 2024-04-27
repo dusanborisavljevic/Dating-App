@@ -1,12 +1,12 @@
-﻿using DatingApp.Data;
+﻿using DatingApp.DAL.Context;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Controllers
 {
     public class BuggyController : BaseApiController
     {
-        private readonly DataContext _dataContext;
-        public BuggyController(DataContext dataContext)
+        private readonly dboContext _dataContext;
+        public BuggyController(dboContext dataContext)
         {
                _dataContext = dataContext;
         }

@@ -1,9 +1,8 @@
-﻿using DatingApp.Entities;
-using DatingApp.Interfaces;
+﻿using DatingApp.Interfaces;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace DatingApp.Services
 {
@@ -14,11 +13,11 @@ namespace DatingApp.Services
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
-        public string createToken(AppUser user)
+        public string createToken(string username)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId,user.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId,username)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

@@ -1,9 +1,7 @@
-﻿using DatingApp.Entities;
-
-namespace DatingApp.Interfaces
+﻿namespace DatingApp.Interfaces
 {
     public interface ITokenService
     {
-        string createToken(AppUser user);
+        string createToken(string username);
     }
 }
