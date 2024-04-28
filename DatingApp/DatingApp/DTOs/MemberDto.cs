@@ -15,6 +15,8 @@ namespace DatingApp.DTOs
 
         public DateTime? LastActive { get; set; }
 
+        public DateTime? DateOfBirth { get; set; }
+
         public string Gender { get; set; }
 
         public string Indroduction { get; set; }

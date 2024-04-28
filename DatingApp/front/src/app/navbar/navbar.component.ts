@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule, NgIf } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavbarComponent implements OnInit {
   //model: any={};
+  userName:string | undefined | null;
   profileForm = new FormGroup({
     username : new FormControl(''),
     password : new FormControl('')
@@ -21,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
 
 
-  constructor(public accountService:AccountService,private toastrService:ToastrService){}
+  constructor(public accountService:AccountService,private toastrService:ToastrService,private route:Router){}
 
   ngOnInit(): void {
   }
@@ -32,6 +33,8 @@ export class NavbarComponent implements OnInit {
     this.accountService.login(this.profileForm.value).subscribe({
       next : () => {
         this.toastrService.success("Successfull login")
+        this.userName=this.profileForm.value.username;
+        this.route.navigateByUrl("members")
       },
       error : error => this.toastrService.error(error.error)
     });

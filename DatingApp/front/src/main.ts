@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { ToastrModule } from 'ngx-toastr';
-import { errorInterceptorInterceptor, httpInterceptorProviders } from './app/_interceptors/error-interceptor.interceptor';
-
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -17,9 +17,11 @@ bootstrapApplication(AppComponent, {
           BrowserModule,
           BsDropdownModule.forRoot(),
           RouterModule,
+          TabsModule.forRoot(),
           ToastrModule.forRoot({
             positionClass : 'toast-bottom-right'
-          })
+          }),
+          NgxGalleryModule
       ),
       provideHttpClient(withInterceptorsFromDi()),
       provideRouter(routes)
