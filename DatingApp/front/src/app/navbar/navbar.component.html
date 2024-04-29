@@ -15,16 +15,16 @@
           </li>
         </ul>
 
-        <li class="nav-item dropdown">
+        <div class="nav-item dropdown" *ngIf="(accountService.currentUser$ | async) as user">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Welcome {{userName}}
+            Welcome {{user.userName}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Edit user</a></li>
+            <li><a class="dropdown-item" href="#" routerLink="/member/edit">Edit user</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
           </ul>
-        </li>
+        </div>
       }
         @else {
           <form class="d-flex" autocomplete="off" (ngSubmit)="login()" [formGroup]="profileForm">

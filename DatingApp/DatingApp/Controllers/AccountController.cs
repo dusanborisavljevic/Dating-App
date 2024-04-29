@@ -24,6 +24,7 @@ namespace DatingApp.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<RegisterResponseDto>> registerUser(RegisterDto registerDto)
         {
+            
 
             return Ok(await _userBL.Register(registerDto));
             

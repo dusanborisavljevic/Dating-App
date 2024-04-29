@@ -14,7 +14,6 @@ export class AccountService {
   constructor(private http:HttpClient,private route:Router) { }
 
   login(profileModel:any){
-    console.log(profileModel);
     return this.http.post<User>(this.baseUrl+"Account/login",profileModel).pipe(
       map((response:User)=>{
         const user=response;

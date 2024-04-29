@@ -29,6 +29,21 @@ namespace DatingApp.BL.Implementations
             return users;
         }
 
+        public async Task getMember(string username,MemberUpdateRequestDto memberRequest)
+        {
+            var user = await _userDAL.getUserByUserName(username);
+            if (user == null)
+                throw new Exception("There is no user with that username");
+
+            _mapper.Map(memberRequest, user);
+            if(!await _userDAL.SaveAllAsync())
+            {
+                throw new Exception("Bad request");
+            }
+
+            return;
+        }
+
         public async Task<MemberDto> getMemberByUserName(string userName)
         {
             return await _userDAL.GetMemberById(userName);
@@ -42,7 +57,7 @@ namespace DatingApp.BL.Implementations
             return _mapper.Map<MemberDto>(user);
         }
 
-        public async Task<ActionResult<RegisterResponseDto>> Login(LoginDto loginDto)
+        public async Task<RegisterResponseDto> Login(LoginDto loginDto)
         {
             var user = await _userDAL.getUserByUserName(loginDto.UserName);
             if (user == null)
@@ -65,7 +80,7 @@ namespace DatingApp.BL.Implementations
 
         }
 
-        public async Task<ActionResult<RegisterResponseDto>> Register(RegisterDto registerDto)
+        public async Task<RegisterResponseDto> Register(RegisterDto registerDto)
         {
             if (await _userDAL.getUserByUserName(registerDto.Username) !=  null)
             {

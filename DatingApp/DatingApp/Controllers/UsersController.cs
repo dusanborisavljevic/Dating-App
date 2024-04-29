@@ -6,6 +6,7 @@ using DatingApp.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace DatingApp.Controllers
 {
@@ -28,6 +29,14 @@ namespace DatingApp.Controllers
         public async Task<ActionResult<MemberDto>> getMemberById(string UserName)
         {
             return Ok(await _userBL.getMemberByUserName(UserName));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> updateMember(MemberUpdateRequestDto memberRequest)
+        {
+            var userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await _userBL.getMember(userName, memberRequest);
+            return Ok("Successfully updated");
         }
     }
 }
