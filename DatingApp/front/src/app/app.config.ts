@@ -6,11 +6,11 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { errorInterceptorInterceptor, httpInterceptorProviders } from './_interceptors/error-interceptor.interceptor';
+import { jwtInterceptor } from './_interceptors/jwt.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),BrowserAnimationsModule,BsDropdownModule,
     importProvidersFrom(HttpClientModule),
-    httpInterceptorProviders,
-    provideHttpClient(withInterceptors([errorInterceptorInterceptor]))
+    provideHttpClient(withInterceptors([errorInterceptorInterceptor,jwtInterceptor]))
   ]
 };

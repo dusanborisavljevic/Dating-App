@@ -5,6 +5,7 @@ using DatingApp.DAL.Interfaces;
 using DatingApp.DTOs;
 using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DatingApp.BL.Implementations
 {
@@ -13,11 +14,45 @@ namespace DatingApp.BL.Implementations
         private readonly IUserDAL _userDAL;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        public UserBL(IUserDAL userDAL,ITokenService tokenService,IMapper mapper)
+        private readonly IPhotoService _photoService;
+        public UserBL(IUserDAL userDAL,ITokenService tokenService,IMapper mapper,IPhotoService photoService)
         {
             _userDAL = userDAL;
             _tokenService = tokenService;
             _mapper = mapper;
+            _photoService = photoService;
+        }
+
+        public async Task<PhotoDto> addPhoto(IFormFile file,string userName)
+        {
+            var user = await _userDAL.getUserByUserName(userName);
+            if(user == null)
+            {
+                throw new Exception("Bad request");
+            }
+
+            var result = await _photoService.addPhotoAsync(file);
+            if(result.Error != null)
+            {
+                throw new Exception(result.Error.Message);
+            }
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+            };
+            if(user.Photos.Count == 0)
+                photo.IsMain = true;
+
+            user.Photos.Add(photo);
+
+            if(await _userDAL.SaveAllAsync())
+            {
+                return _mapper.Map<PhotoDto>(photo);
+            }
+
+            throw new Exception("Bad request");
         }
 
         public async Task<IEnumerable<MemberDto>> getAllMembers()

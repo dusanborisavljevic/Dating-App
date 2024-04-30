@@ -3,6 +3,7 @@ using DatingApp.BL.Interfaces;
 using DatingApp.DAL.Context;
 using DatingApp.DAL.Entity;
 using DatingApp.DTOs;
+using DatingApp.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,13 @@ namespace DatingApp.Controllers
             var userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _userBL.getMember(userName, memberRequest);
             return Ok("Successfully updated");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<PhotoDto>> addPhoto(IFormFile file)
+        {
+            var photo = await _userBL.addPhoto(file,User.getUserName());
+            return CreatedAtAction(nameof(getMemberById), new { UserName = User.getUserName() }, photo);
         }
     }
 }

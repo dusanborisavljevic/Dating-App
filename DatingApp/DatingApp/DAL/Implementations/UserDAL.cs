@@ -51,6 +51,7 @@ namespace DatingApp.DAL.Implementations
         {
             return await _context.Users.
                           Where(x => x.UserName == userName.ToLower()).
+                          Include(p => p.Photos).
                           SingleOrDefaultAsync();
         }
 
