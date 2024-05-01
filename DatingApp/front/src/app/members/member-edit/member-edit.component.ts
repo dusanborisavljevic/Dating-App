@@ -6,11 +6,12 @@ import { MembersService } from '../../_services/members.service';
 import { take } from 'rxjs';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, NgForm } from '@angular/forms';
+import { PhotoUploadComponent } from '../photo-upload/photo-upload.component';
 
 @Component({
   selector: 'app-member-edit',
   standalone: true,
-  imports: [TabsModule,FormsModule],
+  imports: [TabsModule,FormsModule,PhotoUploadComponent],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css'
 })

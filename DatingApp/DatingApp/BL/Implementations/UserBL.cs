@@ -55,6 +55,40 @@ namespace DatingApp.BL.Implementations
             throw new Exception("Bad request");
         }
 
+        public async Task deletePhoto(string username, int photoId)
+        {
+            var user = await _userDAL.getUserByUserName(username);
+            if(user == null )
+            {
+                throw new Exception("Error:There is no user!");
+            }
+
+            var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+            if(photo == null)
+            {
+                throw new Exception("Error:There is no photo with thad id");
+            }
+
+            if(photo.IsMain)
+            {
+                throw new Exception("Error:Main photo can not be deleted!");
+            }
+
+            if (photo.PublicId != null)
+            {
+                var result = await _photoService.deletePhotoAsync(photo.PublicId);
+                if(result.Error!=null)
+                {
+                    throw new Exception(result.Error.Message);
+                }
+            }
+
+            user.Photos.Remove(photo);
+            if (await _userDAL.SaveAllAsync()) return;
+
+            throw new Exception("Something went wrong with deleting");
+        }
+
         public async Task<IEnumerable<MemberDto>> getAllMembers()
         {
             var users = await _userDAL.GetAllMembersAsync();
@@ -109,7 +143,8 @@ namespace DatingApp.BL.Implementations
             return new RegisterResponseDto()
             {
                 UserName = user.UserName,
-                Token = _tokenService.createToken(loginDto.UserName)
+                Token = _tokenService.createToken(loginDto.UserName),
+                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
 
 
@@ -134,8 +169,43 @@ namespace DatingApp.BL.Implementations
             return new RegisterResponseDto()
             {
                 UserName = user.UserName,
-                Token = _tokenService.createToken(registerDto.Username)
+                Token = _tokenService.createToken(registerDto.Username),
+                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
+        }
+
+        public async Task setMainPhoto(int photoId,string userName)
+        {
+            var user = await _userDAL.getUserByUserName(userName);
+            if (user == null)
+            {
+                throw new Exception("Not found");
+            }
+
+            var photo = user.Photos.FirstOrDefault(x=>x.Id == photoId);
+            if(photo == null)
+            {
+                throw new Exception("Not found photo");
+            }
+
+            if(photo.IsMain)
+            {
+                throw new Exception("Photo is already main");
+            }
+
+            var currentMainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
+            if(currentMainPhoto != null) currentMainPhoto.IsMain = false;
+            photo.IsMain = true;
+
+            if(await _userDAL.SaveAllAsync())
+            {
+                return;
+            }
+
+            throw new Exception("Something went wrong while saving");
+            
+
+
         }
     }
 }

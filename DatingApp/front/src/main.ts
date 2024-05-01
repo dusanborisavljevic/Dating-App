@@ -9,6 +9,7 @@ import { routes } from './app/app.routes';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -21,7 +22,8 @@ bootstrapApplication(AppComponent, {
           ToastrModule.forRoot({
             positionClass : 'toast-bottom-right'
           }),
-          NgxGalleryModule
+          NgxGalleryModule,
+          FileUploadModule
       ),
       provideHttpClient(withInterceptorsFromDi()),
       provideRouter(routes)

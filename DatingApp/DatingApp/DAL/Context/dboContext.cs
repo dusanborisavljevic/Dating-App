@@ -33,7 +33,6 @@ public partial class dboContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Photo_User");
         });
 

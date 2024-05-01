@@ -40,11 +40,25 @@ namespace DatingApp.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpPost]
+        [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> addPhoto(IFormFile file)
         {
             var photo = await _userBL.addPhoto(file,User.getUserName());
             return CreatedAtAction(nameof(getMemberById), new { UserName = User.getUserName() }, photo);
+        }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> setMainPhoto(int photoId)
+        {
+            await _userBL.setMainPhoto(photoId, User.getUserName());
+            return NoContent();
+        }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> deletePhoto(int photoId)
+        {
+            await _userBL.deletePhoto(User.getUserName(),photoId);
+            return Ok();
         }
     }
 }

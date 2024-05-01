@@ -9,3 +9,9 @@ nav > div > li{
     list-style-type: none !important;
 }
 
+img{
+    max-height: 50px;
+    border: 2px solid grey;
+    display: inline;
+}
+

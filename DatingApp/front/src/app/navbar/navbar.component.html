@@ -16,7 +16,8 @@
         </ul>
 
         <div class="nav-item dropdown" *ngIf="(accountService.currentUser$ | async) as user">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{user.url}}" alt="user photo">
+          <a class="dropdown-toggle text-decoration-none text-light ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Welcome {{user.userName}}
           </a>
           <ul class="dropdown-menu">

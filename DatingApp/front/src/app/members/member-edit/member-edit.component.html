@@ -1,7 +1,7 @@
 @if(member)
 {
-    <div class="row">
-        <div class="col-4">
+    <div class="row ">
+        <div class="col-4 mt-3">
             <h1>Your profile</h1>
             <div class="card mt-3">
                 <div class="card-img-wrapper">
@@ -63,7 +63,7 @@
                     </form>
                 </tab>
                 <tab heading="Photos">
-                    <p>Edit photos will go here</p>
+                    <app-photo-upload [member]="member"></app-photo-upload>
                 </tab>
             </tabset>
         </div>

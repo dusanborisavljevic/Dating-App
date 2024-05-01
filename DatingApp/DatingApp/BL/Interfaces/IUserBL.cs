@@ -14,5 +14,7 @@ namespace DatingApp.BL.Interfaces
         Task<MemberDto> getMemberByUserName(string userName);
         Task getMember(string username,MemberUpdateRequestDto memberRequest);
         Task<PhotoDto> addPhoto(IFormFile file,string userName);
+        Task setMainPhoto(int photoId,string userName);
+        Task deletePhoto(string username,int photoId);
     }
 }
