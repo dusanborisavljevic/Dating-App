@@ -156,12 +156,10 @@ namespace DatingApp.BL.Implementations
             {
                 throw new Exception("Bad credentials");
             }
-
-            var user = new User()
-            {
-                UserName = registerDto.Username.ToLower(),
-                Password1 = BCrypt.Net.BCrypt.HashPassword(registerDto.Password)
-            };
+            var user = _mapper.Map<User>(registerDto);
+            user.UserName = registerDto.Username.ToLower();
+            user.Password1 = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
+            
 
             await _userDAL.Add(user);
             await _userDAL.SaveAllAsync();

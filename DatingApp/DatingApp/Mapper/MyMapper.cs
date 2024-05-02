@@ -12,6 +12,7 @@ namespace DatingApp.Mapper
             CreateMap<Photo,PhotoDto>();
 
             CreateMap<MemberUpdateRequestDto, User>();
+            CreateMap<RegisterDto, User>();
         }
     }
 }

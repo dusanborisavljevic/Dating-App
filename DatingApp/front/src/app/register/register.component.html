@@ -1,15 +1,32 @@
 <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="register()">
     <h2 class="text-center text-primary">Sign up</h2>
     <hr>
+    <div class="mb-3">
+        <label>I am a:</label>
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" value="male" formControlName="gender">Male
+        </label>
+
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" value="female" formControlName="gender">Female
+        </label>
+    </div>
     <div class="text-center">
-        <div class="mb-3">
-            <input class="form-control" type="text" placeholder="Username" formControlName="username">
-            <input class="form-control mt-2" type="password" placeholder="Password" formControlName="password">
-        </div>
+        <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>
+        <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'Known As'"></app-text-input>
+        <app-date-input [formControl]="$any(registerForm.controls['dateOfBirth'])" [label]="'Date of birth'" [maxDate]="maxDate"></app-date-input>
+        <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
+        <app-text-input [formControl]="$any(registerForm.controls['country'])" [label]="'Country'"></app-text-input>
+        <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'" [type]="'password'"></app-text-input>
+        <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'ConfirmPassword'" [type]="'password'"></app-text-input>
         <div class="text-center">
-            <button class="btn btn-success" type="submit">Register</button>
+            <button class="btn btn-success" type="submit" [disabled]="registerForm.invalid">Register</button>
             <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
         </div>
         
     </div>
 </form>
+
+<div>
+    <p>{{registerForm.status}}</p>
+</div>
