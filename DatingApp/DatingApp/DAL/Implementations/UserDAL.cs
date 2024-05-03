@@ -4,6 +4,7 @@ using DatingApp.DAL.Context;
 using DatingApp.DAL.Entity;
 using DatingApp.DAL.Interfaces;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,11 +25,14 @@ namespace DatingApp.DAL.Implementations
             await _context.AddAsync(user);
         }
 
-        public async Task<IEnumerable<MemberDto>> GetAllMembersAsync()
+        public async Task<PagedList<MemberDto>> GetAllMembersAsync(UserParams userParams)
         {
-            return await _context.Users.
+            var query =  _context.Users.
+                                 Where(u => u.UserName!= userParams.CurrentUserName).
+                                 Where(u => u.Gender == userParams.Gender).
                                  ProjectTo<MemberDto>(_mapper.ConfigurationProvider).
-                                 ToListAsync();
+                                 AsNoTracking();
+            return await PagedList<MemberDto>.createAsync(query, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<MemberDto> GetMemberById(string username)

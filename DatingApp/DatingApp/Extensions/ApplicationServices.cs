@@ -18,6 +18,11 @@ namespace DatingApp.Extensions
             serviceCollections.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             serviceCollections.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             serviceCollections.AddScoped<IPhotoService,PhotoService>();
+            serviceCollections.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+            });
         }
     }
 }

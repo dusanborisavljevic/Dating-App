@@ -11,6 +11,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -25,7 +26,8 @@ bootstrapApplication(AppComponent, {
           }),
           NgxGalleryModule,
           FileUploadModule,
-          BsDatepickerModule.forRoot()
+          BsDatepickerModule.forRoot(),
+          PaginationModule.forRoot()
       ),
       provideHttpClient(withInterceptorsFromDi()),
       provideRouter(routes)

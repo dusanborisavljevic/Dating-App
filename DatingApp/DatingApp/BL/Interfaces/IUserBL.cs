@@ -1,5 +1,6 @@
 ﻿using DatingApp.DAL.Entity;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.BL.Interfaces
@@ -8,7 +9,7 @@ namespace DatingApp.BL.Interfaces
     {
         Task<RegisterResponseDto> Register(RegisterDto registerDto);
         Task<RegisterResponseDto> Login(LoginDto loginDto);
-        Task<IEnumerable<MemberDto>> getAllMembers();
+        Task<PagedList<MemberDto>> getAllMembers(UserParams userParams);
         Task<ActionResult<MemberDto>> getUserById(long id);
 
         Task<MemberDto> getMemberByUserName(string userName);

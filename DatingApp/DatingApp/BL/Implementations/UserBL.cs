@@ -3,8 +3,10 @@ using DatingApp.BL.Interfaces;
 using DatingApp.DAL.Entity;
 using DatingApp.DAL.Interfaces;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace DatingApp.BL.Implementations
@@ -89,9 +91,14 @@ namespace DatingApp.BL.Implementations
             throw new Exception("Something went wrong with deleting");
         }
 
-        public async Task<IEnumerable<MemberDto>> getAllMembers()
+        public async Task<PagedList<MemberDto>> getAllMembers(UserParams userParams)
         {
-            var users = await _userDAL.GetAllMembersAsync();
+            var currentUser = await _userDAL.getUserByUserName(userParams.CurrentUserName);
+            if(userParams.Gender.IsNullOrEmpty())
+            {
+                userParams.Gender = currentUser.Gender == "female" ? "male" : "female";
+            }
+            var users = await _userDAL.GetAllMembersAsync(userParams);
             if (users.Count() == 0)
                 throw new Exception("No users");
 
@@ -152,13 +159,13 @@ namespace DatingApp.BL.Implementations
 
         public async Task<RegisterResponseDto> Register(RegisterDto registerDto)
         {
-            if (await _userDAL.getUserByUserName(registerDto.Username) !=  null)
+            if (await _userDAL.getUserByUserName(registerDto.UserName) !=  null)
             {
                 throw new Exception("Bad credentials");
             }
             var user = _mapper.Map<User>(registerDto);
-            user.UserName = registerDto.Username.ToLower();
-            user.Password1 = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
+            user.UserName = registerDto.UserName.ToLower();
+            user.Password1 = BCrypt.Net.BCrypt.HashPassword(registerDto.Password1);
             
 
             await _userDAL.Add(user);
@@ -167,8 +174,9 @@ namespace DatingApp.BL.Implementations
             return new RegisterResponseDto()
             {
                 UserName = user.UserName,
-                Token = _tokenService.createToken(registerDto.Username),
-                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                Token = _tokenService.createToken(registerDto.UserName),
+                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 

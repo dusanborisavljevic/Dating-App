@@ -1,5 +1,6 @@
 ﻿using DatingApp.DAL.Entity;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.DAL.Interfaces
@@ -9,7 +10,7 @@ namespace DatingApp.DAL.Interfaces
         Task<User> getUserByUserName(string userName);
         Task<bool> SaveAllAsync();
         Task Add(User user);
-        Task<IEnumerable<MemberDto>> GetAllMembersAsync();
+        Task<PagedList<MemberDto>> GetAllMembersAsync(UserParams userParams);
 
         Task<User> GetUserById(long id);
         Task<MemberDto> GetMemberById(string username);

@@ -4,6 +4,7 @@ using DatingApp.DAL.Context;
 using DatingApp.DAL.Entity;
 using DatingApp.DTOs;
 using DatingApp.Extensions;
+using DatingApp.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,12 @@ namespace DatingApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> getAllMembers()
+        public async Task<ActionResult<PagedList<MemberDto>>> getAllMembers([FromQuery]UserParams userParams)
         {
-            return Ok(await _userBL.getAllMembers());
+            userParams.CurrentUserName = User.getUserName();
+            var users = await _userBL.getAllMembers(userParams);
+            Response.ExtendHeader(new PaginationHeader(users.CurrentPage, users.TotalPages, users.PageSize, users.TotalCount));
+            return Ok(users);
         }
 
         [HttpGet("{UserName}")]

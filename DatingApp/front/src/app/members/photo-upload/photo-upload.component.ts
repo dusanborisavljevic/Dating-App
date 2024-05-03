@@ -59,6 +59,11 @@ export class PhotoUploadComponent implements OnInit {
       if(response){
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if(photo.isMain && this.user && this.member){
+          this.user.url = photo.url;
+          this.accountService.setCurrentUser(this.user);
+          this.member.photoUrl = photo.url;
+        }
       }
     }
 
