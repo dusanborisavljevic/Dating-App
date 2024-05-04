@@ -12,6 +12,7 @@ using System.Security.Claims;
 
 namespace DatingApp.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     public class UsersController : BaseApiController
     {

@@ -27,12 +27,19 @@ namespace DatingApp.DAL.Implementations
 
         public async Task<PagedList<MemberDto>> GetAllMembersAsync(UserParams userParams)
         {
-            var query =  _context.Users.
-                                 Where(u => u.UserName!= userParams.CurrentUserName).
-                                 Where(u => u.Gender == userParams.Gender).
-                                 ProjectTo<MemberDto>(_mapper.ConfigurationProvider).
-                                 AsNoTracking();
-            return await PagedList<MemberDto>.createAsync(query, userParams.PageNumber, userParams.PageSize);
+            var query1 = _context.Users.AsQueryable();
+            query1 = query1.Where(u => u.UserName != userParams.CurrentUserName);
+            query1 = query1.Where(u => u.Gender == userParams.Gender);
+            query1 = userParams.OrderBy switch
+            {
+                "created" => query1.OrderByDescending(u => u.Creted),
+                _ => query1.OrderByDescending(u => u.LastActive)
+            };
+
+            return await PagedList<MemberDto>.createAsync(query1.
+                ProjectTo<MemberDto>(_mapper.ConfigurationProvider).
+                AsNoTracking(),
+                userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<MemberDto> GetMemberById(string username)
@@ -45,10 +52,7 @@ namespace DatingApp.DAL.Implementations
 
         public async Task<User> GetUserById(long id)
         {
-            return await _context.Users.
-                                  Where(x => x.Id == id).
-                                  Include(p => p.Photos).
-                                  FirstOrDefaultAsync();
+            return await _context.Users.FindAsync(id);
         }
 
         public async Task<User> getUserByUserName(string userName)

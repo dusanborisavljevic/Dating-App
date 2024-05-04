@@ -13,11 +13,12 @@ namespace DatingApp.Services
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
-        public string createToken(string username)
+        public string createToken(string username,int id)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId,username)
+                new Claim(JwtRegisteredClaimNames.NameId,id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName,username)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

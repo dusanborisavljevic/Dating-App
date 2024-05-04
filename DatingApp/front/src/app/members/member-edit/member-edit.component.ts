@@ -7,11 +7,13 @@ import { take } from 'rxjs';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { PhotoUploadComponent } from '../photo-upload/photo-upload.component';
+import { CommonModule } from '@angular/common';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-edit',
   standalone: true,
-  imports: [TabsModule,FormsModule,PhotoUploadComponent],
+  imports: [TabsModule,FormsModule,PhotoUploadComponent,CommonModule,TimeagoModule],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css'
 })

@@ -4,11 +4,13 @@ import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryImage, NgxGalleryModule, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { TimeagoModule } from 'ngx-timeago';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [TabsModule,NgxGalleryModule],
+  imports: [TabsModule,NgxGalleryModule,TimeagoModule,CommonModule],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })

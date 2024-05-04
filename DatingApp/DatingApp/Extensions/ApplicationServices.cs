@@ -23,6 +23,8 @@ namespace DatingApp.Extensions
             {
                 options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
             });
+
+            serviceCollections.AddScoped<LogUserActivity>();
         }
     }
 }

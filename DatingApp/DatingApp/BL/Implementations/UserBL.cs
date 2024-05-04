@@ -150,8 +150,10 @@ namespace DatingApp.BL.Implementations
             return new RegisterResponseDto()
             {
                 UserName = user.UserName,
-                Token = _tokenService.createToken(loginDto.UserName),
-                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                Token = _tokenService.createToken(loginDto.UserName,(int)user.Id),
+                url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
 
 
@@ -174,9 +176,10 @@ namespace DatingApp.BL.Implementations
             return new RegisterResponseDto()
             {
                 UserName = user.UserName,
-                Token = _tokenService.createToken(registerDto.UserName),
+                Token = _tokenService.createToken(registerDto.UserName, (int)user.Id),
                 url = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
         }
 
